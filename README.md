@@ -13,7 +13,14 @@
 `SELECT * FROM products WHERE category = '' or 1=1 --' AND released = 1`
 - Mệnh đề `or 1=1` luôn đúng và vế sau đã bị comment bởi `--` nên tất cả sản phẩm sẽ được hiển thị.
 > ![](WU_Portswigger_files/0_1.png)
-# Lab-02:SQL injection UNION attack, determining the number of columns returned by the query
+# Lab-02: SQL injection vulnerability allowing login bypass
+> This lab contains an SQL injection vulnerability in the login function.
+To solve the lab, perform an SQL injection attack that logs in to the application as the administrator user.
+### Cách giải:
+- Để giải quyết lab này mình cần phải login với tư cách là người dùng administrator.
+- Đầu tiên mình vào phần đăng nhập và thử username và pass bất kỳ thì không được.
+- Tiếp theo mình thử đăng nhập bằng ```username: ' or 1 = 1 --``` và pass bất kỳ hoặc username bất kỳ và ```password: ' or 1 = 1 --``` thì lab được giải quyết 
+# Lab-03:SQL injection UNION attack, determining the number of columns returned by the query
 > This lab contains an SQL injection vulnerability in the product category filter. The results from the query are returned in the application's response, so you can use a UNION attack to retrieve data from other tables. The first step of such an attack is to determine the number of columns that are being returned by the query. You will then use this technique in subsequent labs to construct the full attack.
 
 > To solve the lab, determine the number of columns returned by the query by performing an [SQL injection UNION](https://portswigger.net/web-security/sql-injection/union-attacks/lab-determine-number-of-columns#:~:text=This%20lab%20contains,containing%20null%20values.) attack that returns an additional row containing null values.
@@ -50,7 +57,7 @@ https://ace91f611f55b721c0ad04c900ff0016.web-security-academy.net/filter?categor
 ```
 > ![](WU_Portswigger_files/5.png)
 - Như vậy chúng ta đã hoàn thành bài lab, kết quả cuối cùng cho ta biết số cột được trả về bởi truy vấn là 3 cột.
-# Lab-03: SQL injection UNION attack, finding a column containing text
+# Lab-04: SQL injection UNION attack, finding a column containing text
 > This lab contains an SQL injection vulnerability in the product category filter. The results from the query are returned in the application's response, so you can use a UNION attack to retrieve data from other tables. To construct such an attack, you first need to determine the number of columns returned by the query. You can do this using a technique you learned in a previous lab. The next step is to identify a column that is compatible with string data.
 
 > The lab will provide a random value that you need to make appear within the query results. To solve the lab, perform an SQL injection UNION attack that returns an additional row containing the value provided. This technique helps you determine which columns are compatible with string data.
@@ -69,7 +76,7 @@ https://ace91f611f55b721c0ad04c900ff0016.web-security-academy.net/filter?categor
 - Cứ thế mình sẽ thử với các cột tiếp theo và hoàn thành lab ở cột thứ 2:
 > ![](WU_Portswigger_files/8.png)
 
-# Lab-04: SQL injection UNION attack, retrieving data from other tables
+# Lab-05: SQL injection UNION attack, retrieving data from other tables
 > This lab contains an SQL injection vulnerability in the product category filter. The results from the query are returned in the application's response, so you can use a UNION attack to retrieve data from other tables. To construct such an attack, you need to combine some of the techniques you learned in previous labs.
 > The database contains a different table called users, with columns called username and password.
 > To solve the lab, perform an SQL injection UNION attack that retrieves all usernames and passwords, and use the information to log in as the administrator user
@@ -87,7 +94,7 @@ https://ace91f611f55b721c0ad04c900ff0016.web-security-academy.net/filter?categor
 ```
 > ![](WU_Portswigger_files/11.png)
 - Cuối cùng mình lấy username và password tìm được để đăng nhập là hoàn thành lab.
-# Lab-05: SQL injection UNION attack, retrieving multiple values in a single column.
+# Lab-06: SQL injection UNION attack, retrieving multiple values in a single column.
 > This lab contains an SQL injection vulnerability in the product category filter. The results from the query are returned in the application's response so you can use a UNION attack to retrieve data from other tables.
 > The database contains a different table called users, with columns called username and password.
 > To solve the lab, perform an SQL injection UNION attack that retrieves all usernames and passwords, and use the information to log in as the administrator user
@@ -108,7 +115,7 @@ https://ace91f611f55b721c0ad04c900ff0016.web-security-academy.net/filter?categor
 ``` ' UNION SELECT null, username || '------ ' ||password FROM users--```
 > ![](WU_Portswigger_files/15.png)
 
-# Lab-06: SQL injection attack, querying the database type and version on Oracle
+# Lab-07: SQL injection attack, querying the database type and version on Oracle
 > This lab contains an SQL injection vulnerability in the product category filter. You can use a UNION attack to retrieve the results from an injected query.
 >To solve the lab, display the database version string
 ### Cách giải:
@@ -139,7 +146,7 @@ https://ace91f611f55b721c0ad04c900ff0016.web-security-academy.net/filter?categor
 - Hoàn thành lab
 ```' UNION SELECT null, banner FROM v$version--```
 > ![](WU_Portswigger_files/20.png)
-# Lab-07: SQL injection attack, querying the database type and version on MySQL and Microsoft.
+# Lab-08: SQL injection attack, querying the database type and version on MySQL and Microsoft.
 > This lab contains an SQL injection vulnerability in the product category filter. You can use a UNION attack to retrieve the results from an injected query.
 > To solve the lab, display the database version string.
 - Cách giải:
@@ -156,7 +163,7 @@ Mà nếu để khoảng trắng ở cuối trên url thì nó sẽ bị bỏ m�
 
 > ![](WU_Portswigger_files/22.png)
 
-# Lab-08: SQL injection attack, listing the database contents on non-Oracle databases
+# Lab-09: SQL injection attack, listing the database contents on non-Oracle databases
 > This lab contains an SQL injection vulnerability in the product category filter. The results from the query are returned in the application's response so you can use a UNION attack to retrieve data from other tables.
 > The application has a login function, and the database contains a table that holds usernames and passwords. You need to determine the name of this table and the columns it contains, then retrieve the contents of the table to obtain the username and password of all users.
 > To solve the lab, log in as the administrator user.
@@ -183,7 +190,7 @@ Mà nếu để khoảng trắng ở cuối trên url thì nó sẽ bị bỏ m�
 ``` 'UNION SELECT password_djkvqr, username_ztbkvp FROM users_yemgnv--```
 > ![](WU_Portswigger_files/27.png)
 - Đăng nhập để hoàn thành lab.
-# Lab-09: SQL injection attack, listing the database contents on Oracle
+# Lab-10: SQL injection attack, listing the database contents on Oracle
 > This lab contains an SQL injection vulnerability in the product category filter. The results from the query are returned in the application's response so you can use a UNION attack to retrieve data from other tables.
 The application has a login function, and the database contains a table that holds usernames and passwords. You need to determine the name of this table and the columns it contains, then retrieve the contents of the table to obtain the username and password of all users.
 To solve the lab, log in as the administrator user.
@@ -208,7 +215,7 @@ To solve the lab, log in as the administrator user.
 ```
 > ![](WU_Portswigger_files/33.png)
 - Đăng nhập để hoàn thành lab.
-# Lab-10: Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
+# Lab-11: Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
 > This lab contains an SQL injection vulnerability in the product category filter. When the user selects a category, the application carries out an SQL query like the following:
 SELECT * FROM products WHERE category = 'Gifts' AND released = 1
 To solve the lab, perform an SQL injection attack that causes the application to display details of all products in any category, both released and unreleased.
@@ -221,13 +228,7 @@ To solve the lab, perform an SQL injection attack that causes the application to
 > ![](WU_Portswigger_files/34.png)
 - Ngắn gọn hơn:``` ' OR 1=1--```
 > ![](WU_Portswigger_files/35.png)
-# Lab-10: SQL injection vulnerability allowing login bypass
-> This lab contains an SQL injection vulnerability in the login function.
-To solve the lab, perform an SQL injection attack that logs in to the application as the administrator user.
-### Cách giải:
-- Để giải quyết lab này mình cần phải login với tư cách là người dùng administrator.
-- Đầu tiên mình vào phần đăng nhập và thử username và pass bất kỳ thì không được.
-- Tiếp theo mình thử đăng nhập bằng ```username: ' or 1 = 1 --``` và pass bất kỳ hoặc username bất kỳ và ```password: ' or 1 = 1 --``` thì lab được giải quyết 
+
 
 
 
